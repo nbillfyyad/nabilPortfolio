@@ -1,0 +1,490 @@
+.audio-container {
+    margin-top: 20px;
+    background: var(--inner-card-bg);
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.visualizer-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Membuat canvas & tombol berada di tengah */
+    gap: 10px;
+    width: 100%;
+}
+
+#visualizer {
+    width: 100%;
+    height: 100px;
+    background: transparent;
+}
+
+.play-btn {
+    background: var(--accent-color);
+    border: none;
+    color: var(--bg-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(6, 182, 212, 0.4);
+    transition: transform 0.2s;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+}
+
+
+/* RESET & BASE STYLES */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --inner-card-bg: #0f172a;
+    --text-color: #cbd5e1;
+    --text-white: #ffffff;
+    --accent-color: #06b6d4; /* Teal / Cyan */
+    --accent-dim: rgba(6, 182, 212, 0.2);
+    --border-color: #334155;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Mengubah dari 'center' ke 'flex-start' agar scroll mulai dari atas */
+    min-height: 100vh;
+    height: auto; /* Memastikan tinggi mengikuti konten */
+    padding: 20px;
+    background: radial-gradient(circle at bottom right, rgba(6,182,212,0.15) 0%, transparent 60%), var(--bg-color);
+    overflow-y: auto; /* Mengizinkan scroll vertikal */
+}
+
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    gap: 20px;
+}
+
+/* SIDEBAR MENU */
+.sidebar {
+    background-color: var(--card-bg);
+    width: 80px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border: 1px solid var(--border-color);
+}
+
+.theme-toggle {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 40px;
+    color: var(--text-color);
+    transition: color 0.3s;
+}
+
+.theme-toggle:hover {
+    color: var(--accent-color);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    align-items: center;
+}
+
+.nav-links li {
+    width: 100%;
+    text-align: center;
+}
+
+.nav-links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.65rem;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-links li.active a, .nav-links a:hover {
+    color: var(--accent-color);
+}
+
+.nav-links i {
+    font-size: 1.3rem;
+}
+
+/* PROFILE CARD */
+.profile-card {
+    background-color: var(--card-bg);
+    width: 320px;
+    border-radius: 24px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+}
+
+.profile-banner {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+}
+
+.profile-info {
+    padding: 0 20px 20px 20px;
+    text-align: center;
+    position: relative;
+    flex-grow: 1;
+}
+
+.avatar-container {
+    margin-top: -60px;
+    margin-bottom: 15px;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    border: 4px solid var(--card-bg);
+    object-fit: cover;
+    background-color: var(--accent-color);
+}
+
+.profile-info h2 {
+    color: var(--text-white);
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.profile-info .title {
+    color: var(--accent-color);
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: var(--text-color);
+    background-color: var(--inner-card-bg);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border-color);
+}
+
+.social-icons a:hover {
+    background-color: var(--accent-color);
+    color: var(--bg-color);
+}
+
+.profile-footer {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+}
+
+.profile-footer a {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.3s;
+}
+
+.profile-footer a:first-child {
+    border-right: 1px solid var(--border-color);
+}
+
+.profile-footer a:hover {
+    background-color: rgba(255,255,255,0.02);
+    color: var(--text-white);
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    background-color: var(--card-bg);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+/* About Section */
+.greeting {
+    font-size: 1.8rem;
+    color: var(--text-white);
+    margin-bottom: 15px;
+    border-right: 3px solid var(--accent-color);
+    display: inline-block;
+    padding-right: 15px;
+}
+
+.greeting span {
+    color: var(--text-white);
+}
+
+.description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.highlight {
+    color: var(--accent-color);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 10fr);
+    gap: 15px;
+}
+
+.stat-card {
+    background-color: var(--inner-card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.stat-card h3 {
+    color: var(--text-white);
+    font-size: 1.2rem;
+}
+
+.stat-card p {
+    font-size: 0.7rem;
+    color: var(--text-color);
+}
+
+/* Skills Section */
+.section-title {
+    color: var(--accent-color);
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* Skill Box standard */
+.skill-box {
+    background-color: var(--inner-card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+.skill-box i {
+    font-size: 2rem;
+}
+
+/* Skill Box Circle (PHP & MySQL) */
+.skill-box-circle {
+    grid-column: span 1;
+    background-color: var(--inner-card-bg);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+}
+
+.circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: conic-gradient(var(--accent-color) calc(var(--percent) * 1%), var(--border-color) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.circle::before {
+    content: "";
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--inner-card-bg);
+}
+
+.circle-number {
+    position: relative;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+/* Progress Bars Column */
+.skill-bars-container {
+    grid-column: span 2;
+    background-color: var(--inner-card-bg);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.bar-group {
+    width: 100%;
+}
+
+.bar-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+/* RESPONSIVE LAYOUT (UNTUK TAMPILAN HP) */
+@media (max-width: 900px) {
+    .container { 
+        flex-direction: column; 
+        height: auto;
+        max-width: 100%;
+    }
+    
+    .sidebar { 
+        width: 100%; 
+        flex-direction: row; 
+        justify-content: space-between; 
+        padding: 10px 20px; 
+    }
+    
+    .theme-toggle { 
+        margin-bottom: 0; 
+    }
+    
+    .nav-links { 
+        flex-direction: row; 
+        justify-content: flex-end; 
+        gap: 20px; 
+    }
+    
+    .profile-card { 
+        width: 100%; 
+        flex-shrink: 0;
+    }
+    
+    .main-content {
+        height: auto; /* Mencegah content terpotong di dalam box */
+    }
+
+    .stats-grid { 
+        grid-template-columns: 1fr; /* Menjadikan 1 baris ke bawah di HP vertikal */
+    }
+    
+    .skills-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    
+    .skill-bars-container { 
+        grid-column: span 2; 
+    }
+}
+
+/* Tambahan optimasi khusus untuk layar landscape HP seperti di gambar 120886.jpg */
+@media (max-width: 900px) and (orientation: landscape) {
+    .stats-grid { 
+        grid-template-columns: repeat(3, 1fr); /* Tetap 3 kolom jika posisi HP miring */
+    }
+    .skills-grid { 
+        grid-template-columns: repeat(4, 1fr); 
+    }
+    .skill-bars-container { 
+        grid-column: span 2; 
+    }
+}
