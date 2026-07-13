@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - SnapCat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- SIDEBAR MENU -->
+        <nav class="sidebar">
+            <div class="theme-toggle" id="themeBtn"><i class="fa-regular fa-sun"></i></div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fa-regular fa-user"></i><span>ABOUT</span></a></li>
+                <li><a href="resume.html"><i class="fa-regular fa-file-lines"></i><span>RESUME</span></a></li>
+                <li><a href="project.html"><i class="fa-solid fa-layer-group"></i><span>PROJECTS</span></a></li>
+                <li class="active"><a href="contact.html"><i class="fa-regular fa-paper-plane"></i><span>CONTACT</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- PROFILE CARD -->
+        <aside class="profile-card">
+            <div class="profile-banner"><img src="wallpapergw.jpg" alt="Banner"></div>
+            <div class="profile-info">
+                <div class="avatar-container"><img src="gwbngt.jpg" alt="SnapCat" class="avatar"></div>
+                <h2>Nabil Fayyad Nahrul Ilmi Febriano</h2>
+                <p class="title">Crew Store</p>
+                
+                <div class="social-icons">
+                    <a href="https://github.com/nbillfyyad" target="_blank"><i class="fa-brands fa-github"></i></a>
+                    <a href="https://www.tiktok.com/@si_snapcat?_r=1&_t=ZS-97zvLCr5d8J" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/snapcat_666666?igsh=bGhsN29oZTJqaHpk" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://x.com/Zzzz70644" target="_blank"><i class="fa-brands fa-x"></i></a>
+                </div>
+            </div>
+            <div class="profile-footer">
+                <a href="resume.html"><span class="text">My Resume</span> <i class="fa-regular fa-id-card"></i></a>
+                <a href="contact.html"><span class="text">Contact Me</span> <i class="fa-solid fa-phone"></i></a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <section class="contact-page-section">
+                <h1 class="section-title">Contact Me</h1>
+                
+                <div class="contact-wrapper">
+                    <form class="custom-contact-form" action="https://formspree.io/f/xvzeorzl" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-form-btn">Send Message <i class="fa-regular fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

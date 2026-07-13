@@ -1,47 +1,6 @@
-.audio-container {
-    margin-top: 20px;
-    background: var(--inner-card-bg);
-    padding: 15px;
-    border-radius: 16px;
-    border: 1px solid var(--border-color);
-}
-
-.visualizer-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Membuat canvas & tombol berada di tengah */
-    gap: 10px;
-    width: 100%;
-}
-
-#visualizer {
-    width: 100%;
-    height: 100px;
-    background: transparent;
-}
-
-.play-btn {
-    background: var(--accent-color);
-    border: none;
-    color: var(--bg-color);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(6, 182, 212, 0.4);
-    transition: transform 0.2s;
-}
-
-.play-btn:hover {
-    transform: scale(1.1);
-}
-
-
-/* RESET & BASE STYLES */
+/* ==========================================
+   RESET, VARIABLES & BASE STYLES
+   ========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -49,15 +8,28 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* --- TEMA GELAP MURNI (DEFAULT) --- */
 :root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --inner-card-bg: #0f172a;
-    --text-color: #cbd5e1;
-    --text-white: #ffffff;
-    --accent-color: #06b6d4; /* Teal / Cyan */
-    --accent-dim: rgba(6, 182, 212, 0.2);
-    --border-color: #334155;
+    --bg-color: #121212;         /* Hitam pekat */
+    --card-bg: #1e1e1e;          /* Abu-abu gelap untuk card */
+    --inner-card-bg: #121212;    /* Hitam pekat untuk input/box dalam */
+    --text-color: #a0a0a0;       /* Abu-abu terang untuk teks biasa */
+    --text-white: #ffffff;       /* Putih bersih untuk judul/teks penting */
+    --accent-color: #00adb5;     /* Teal kontras */
+    --accent-dim: rgba(0, 173, 181, 0.15);
+    --border-color: #2c2c2c;     /* Garis tepi gelap */
+}
+
+/* --- TEMA TERANG (LIGHT MODE) --- */
+body.light-theme {
+    --bg-color: #f4f5f7;         /* Putih keabu-abuan cerah */
+    --card-bg: #ffffff;          /* Putih bersih untuk card */
+    --inner-card-bg: #f8f9fa;    /* Putih abu-abu lembut untuk input/box dalam */
+    --text-color: #4a4a4a;       /* Abu-abu gelap untuk teks biasa */
+    --text-white: #1a1a1a;       /* Hitam pekat untuk judul/teks penting */
+    --accent-color: #007a87;     /* Teal lebih gelap agar kontras di latar terang */
+    --accent-dim: rgba(0, 122, 135, 0.1);
+    --border-color: #e0e4ec;     /* Garis tepi terang tipis */
 }
 
 body {
@@ -65,23 +37,28 @@ body {
     color: var(--text-color);
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Mengubah dari 'center' ke 'flex-start' agar scroll mulai dari atas */
+    align-items: flex-start;
     min-height: 100vh;
-    height: auto; /* Memastikan tinggi mengikuti konten */
+    height: auto;
     padding: 20px;
-    background: radial-gradient(circle at bottom right, rgba(6,182,212,0.15) 0%, transparent 60%), var(--bg-color);
-    overflow-y: auto; /* Mengizinkan scroll vertikal */
+    background: radial-gradient(circle at bottom right, var(--accent-dim) 0%, transparent 60%), var(--bg-color);
+    overflow-y: auto;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-
 
 .container {
     display: flex;
     width: 100%;
     max-width: 1200px;
     gap: 20px;
+    align-items: flex-start;
+    padding-left: 100px; 
+    position: relative;
 }
 
-/* SIDEBAR MENU */
+/* ==========================================
+   SIDEBAR MENU (FIXED POSITION)
+   ========================================== */
 .sidebar {
     background-color: var(--card-bg);
     width: 80px;
@@ -91,6 +68,18 @@ body {
     align-items: center;
     padding: 20px 0;
     border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    position: fixed;
+    top: 20px;
+    left: calc((100vw - 1200px) / 2 + 20px); 
+    z-index: 999;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+@media (max-width: 1240px) {
+    .sidebar {
+        left: 20px;
+    }
 }
 
 .theme-toggle {
@@ -139,7 +128,9 @@ body {
     font-size: 1.3rem;
 }
 
-/* PROFILE CARD */
+/* ==========================================
+   PROFILE CARD
+   ========================================== */
 .profile-card {
     background-color: var(--card-bg);
     width: 320px;
@@ -148,6 +139,10 @@ body {
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border-color);
+    flex-shrink: 0;
+    position: sticky;
+    top: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .profile-banner {
@@ -185,48 +180,44 @@ body {
     border: 4px solid var(--card-bg);
     object-fit: cover;
     background-color: var(--accent-color);
+    transition: border-color 0.3s ease;
 }
 
 .profile-info h2 {
     color: var(--text-white);
     font-size: 1.4rem;
     margin-bottom: 5px;
+    transition: color 0.3s ease;
 }
 
 .profile-info .title {
     color: var(--accent-color);
     font-size: 0.85rem;
     margin-bottom: 25px;
+    transition: color 0.3s ease;
 }
 
 .social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
+    margin-top: 15px;
 }
 
 .social-icons a {
-    color: var(--text-color);
-    background-color: var(--inner-card-bg);
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    transition: all 0.3s;
-    border: 1px solid var(--border-color);
+    color: var(--text-color); 
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
 }
 
 .social-icons a:hover {
-    background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: var(--accent-color);
 }
 
 .profile-footer {
     display: flex;
     border-top: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
 }
 
 .profile-footer a {
@@ -240,10 +231,14 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    transition: background 0.3s;
+    transition: background 0.3s, color 0.3s;
 }
 
 .profile-footer a:first-child {
+    border-right: 1px solid var(--border-color);
+}
+
+body.light-theme .profile-footer a:first-child {
     border-right: 1px solid var(--border-color);
 }
 
@@ -252,7 +247,13 @@ body {
     color: var(--text-white);
 }
 
-/* MAIN CONTENT */
+body.light-theme .profile-footer a:hover {
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* ==========================================
+   MAIN CONTENT & PAGES
+   ========================================== */
 .main-content {
     flex: 1;
     background-color: var(--card-bg);
@@ -261,230 +262,451 @@ body {
     border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 30px;
+    animation: smoothFade 0.4s ease-in-out forwards;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* About Section */
-.greeting {
-    font-size: 1.8rem;
-    color: var(--text-white);
-    margin-bottom: 15px;
-    border-right: 3px solid var(--accent-color);
-    display: inline-block;
-    padding-right: 15px;
+@keyframes smoothFade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.greeting span {
-    color: var(--text-white);
-}
-
-.description {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.highlight {
-    color: var(--accent-color);
-}
-
-/* Stats Grid */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 10fr);
-    gap: 15px;
-}
-
-.stat-card {
-    background-color: var(--inner-card-bg);
-    padding: 15px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    border: 1px solid var(--border-color);
-}
-
-.stat-icon {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-}
-
-.stat-card h3 {
-    color: var(--text-white);
-    font-size: 1.2rem;
-}
-
-.stat-card p {
-    font-size: 0.7rem;
-    color: var(--text-color);
-}
-
-/* Skills Section */
 .section-title {
     color: var(--accent-color);
-    font-size: 1.25rem;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
-.skills-grid {
+/* Home / About Extra Styles */
+.greeting {
+    font-size: 2rem;
+    color: var(--text-white);
+    transition: color 0.3s ease;
+}
+.greeting span { color: var(--accent-color); }
+.description { line-height: 1.6; font-size: 0.95rem; transition: color 0.3s ease; }
+.highlight { color: var(--accent-color); font-weight: 500; }
+
+.stats-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
 }
-
-/* Skill Box standard */
-.skill-box {
-    background-color: var(--inner-card-bg);
-    border-radius: 12px;
+.stat-card {
+    background: var(--inner-card-bg);
+    border: 1px solid var(--border-color);
     padding: 20px;
+    border-radius: 16px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.stat-icon { font-size: 1.8rem; color: var(--accent-color); }
+.stat-card h3 { color: var(--text-white); font-size: 1.3rem; transition: color 0.3s ease; }
+.stat-card p { font-size: 0.8rem; color: var(--text-color); transition: color 0.3s ease; }
+
+.skill-box {
+    background: var(--inner-card-bg);
     border: 1px solid var(--border-color);
-    font-size: 0.85rem;
-}
-
-.skill-box i {
-    font-size: 2rem;
-}
-
-/* Skill Box Circle (PHP & MySQL) */
-.skill-box-circle {
-    grid-column: span 1;
-    background-color: var(--inner-card-bg);
+    padding: 12px;
     border-radius: 12px;
-    padding: 15px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 10px;
-    border: 1px solid var(--border-color);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+.skill-box i { font-size: 1.2rem; }
 
+/* Circle Progress Skills */
 .circle {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: conic-gradient(var(--accent-color) calc(var(--percent) * 1%), var(--border-color) 0);
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     position: relative;
 }
-
 .circle::before {
     content: "";
     position: absolute;
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background-color: var(--inner-card-bg);
+    background: var(--card-bg);
+    transition: background-color 0.3s ease;
 }
-
 .circle-number {
     position: relative;
-    font-size: 0.75rem;
+    z-index: 1;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-white);
+    transition: color 0.3s ease;
 }
 
-/* Progress Bars Column */
-.skill-bars-container {
-    grid-column: span 2;
-    background-color: var(--inner-card-bg);
-    border-radius: 12px;
-    padding: 20px;
+/* Timeline Layout (Resume) */
+.timeline {
+    position: relative;
+    border-left: 2px solid var(--border-color);
+    padding-left: 20px;
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 15px;
+    gap: 30px;
+    transition: border-color 0.3s ease;
+}
+.timeline-item { position: relative; }
+.timeline-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    left: -27px;
+    top: 6px;
+}
+.timeline-item h3 { color: var(--text-white); font-size: 1.15rem; transition: color 0.3s ease; }
+.timeline-company { color: var(--accent-color); font-size: 0.9rem; margin: 2px 0; }
+.timeline-date { font-size: 0.8rem; color: #8b9bb4; margin-bottom: 8px; }
+.timeline-desc { font-size: 0.9rem; line-height: 1.5; transition: color 0.3s ease; }
+
+/* ==========================================
+   HALAMAN PROJECTS (GRID VIEW)
+   ========================================== */
+.projects-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.portfolio-card {
+    background: var(--inner-card-bg);
     border: 1px solid var(--border-color);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.bar-group {
+.portfolio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 173, 181, 0.15);
+}
+
+.portfolio-img {
     width: 100%;
-}
-
-.bar-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-}
-
-.progress-bar {
-    width: 100%;
-    height: 6px;
-    background-color: var(--border-color);
-    border-radius: 10px;
+    height: 200px;
     overflow: hidden;
 }
 
-.progress-fill {
+.portfolio-img img {
+    width: 100%;
     height: 100%;
-    background-color: var(--accent-color);
-    border-radius: 10px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
-/* RESPONSIVE LAYOUT (UNTUK TAMPILAN HP) */
+.portfolio-card:hover .portfolio-img img {
+    transform: scale(1.05);
+}
+
+.portfolio-info {
+    padding: 20px;
+}
+
+.portfolio-info h3 {
+    color: var(--text-white);
+    margin-bottom: 6px;
+    font-size: 1.15rem;
+    transition: color 0.3s ease;
+}
+
+.portfolio-info p {
+    color: var(--text-color);
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.tag {
+    display: inline-block;
+    background: var(--card-bg);
+    color: var(--accent-color);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    border: 1px solid var(--border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: gap 0.2s ease, color 0.3s ease;
+}
+.back-btn:hover { gap: 10px; }
+
+/* ==========================================
+   HORIZONTAL PORTFOLIO CARD STYLES
+   ========================================== */
+.portfolio-card.horizontal-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 200px;
+    width: 100%;
+}
+
+.portfolio-card.horizontal-card .portfolio-img {
+    width: 40%;
+    height: auto;
+}
+
+.portfolio-card.horizontal-card .portfolio-info {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.card-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.card-body-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-top: 15px;
+    gap: 10px;
+}
+
+.card-body-bottom p {
+    margin-bottom: 0;
+    max-width: 90%;
+}
+
+/* ==========================================
+   HALAMAN DETIL PROYEK
+   ========================================== */
+.back-project-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    width: fit-content;
+    margin-bottom: 10px;
+}
+
+.back-project-link:hover {
+    color: var(--accent-color);
+    transform: translateX(-5px);
+}
+
+.project-detail-hero h1 {
+    font-size: 2rem;
+    color: var(--text-white);
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.project-tagline {
+    color: var(--accent-color);
+    font-size: 0.95rem;
+    margin-top: 5px;
+    transition: color 0.3s ease;
+}
+
+.project-detail-banner {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin: 20px 0;
+    transition: border-color 0.3s ease;
+}
+
+.project-detail-banner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.project-meta-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.badge-item {
+    background: var(--inner-card-bg);
+    border: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 160px;
+    transition: all 0.3s ease;
+}
+
+.badge-item:hover {
+    border-color: var(--accent-color);
+    background: var(--accent-dim);
+    transform: translateY(-2px);
+}
+
+.badge-item i { font-size: 1.2rem; color: var(--accent-color); transition: color 0.3s ease; }
+.badge-item span { display: block; font-size: 0.75rem; color: #8b9bb4; }
+.badge-item strong { display: block; font-size: 0.85rem; color: var(--text-white); font-weight: 600; margin-top: 2px; transition: color 0.3s ease; }
+
+.project-divider { border: 0; height: 1px; background: var(--border-color); margin: 20px 0; transition: background-color 0.3s ease; }
+.project-detail-body h2 { color: var(--text-white); font-size: 1.3rem; margin-bottom: 12px; transition: color 0.3s ease; }
+.project-detail-body p { font-size: 0.9rem; line-height: 1.6; color: var(--text-color); transition: color 0.3s ease; }
+
+/* ==========================================
+   AUDIO VISUALIZER COMPONENT
+   ========================================== */
+.audio-container {
+    background: var(--inner-card-bg);
+    padding: 15px;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.visualizer-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#visualizer {
+    width: 100%;
+    height: 100px;
+    background: transparent;
+}
+
+.play-btn {
+    background: var(--accent-color);
+    border: none;
+    color: var(--bg-color);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 173, 181, 0.4);
+    transition: transform 0.2s, background-color 0.3s ease, color 0.3s ease;
+}
+
+.play-btn:hover { transform: scale(1.1); }
+
+/* ==========================================
+   CONTACT FORM STYLES (DIJAMIN FULL WIDTH)
+   ========================================== */
+form {
+    width: 100% !important;
+}
+
+form .form-group {
+    margin-bottom: 15px;
+    width: 100% !important;
+}
+
+form input, 
+form textarea {
+    width: 100% !important; 
+    padding: 12px; 
+    background: var(--inner-card-bg); 
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    color: var(--text-white);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.3s, background-color 0.3s ease, color 0.3s ease;
+    box-sizing: border-box !important; /* Memaksa input agar pas dengan kotak pembungkus */
+}
+
+form input:focus, 
+form textarea:focus {
+    border-color: var(--accent-color);
+}
+
+.submit-form-btn {
+    background: var(--accent-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.3s, background-color 0.3s ease, color 0.3s ease;
+}
+
+.submit-form-btn:hover { opacity: 0.9; }
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
 @media (max-width: 900px) {
-    .container { 
-        flex-direction: column; 
-        height: auto;
-        max-width: 100%;
-    }
-    
+    body { padding: 10px; }
+    .container { flex-direction: column; max-width: 100%; gap: 15px; padding-left: 0; }
     .sidebar { 
-        width: 100%; 
-        flex-direction: row; 
-        justify-content: space-between; 
-        padding: 10px 20px; 
+        width: 100%; flex-direction: row; justify-content: space-between; 
+        padding: 10px 20px; border-radius: 16px; position: static; height: auto; 
     }
-    
-    .theme-toggle { 
-        margin-bottom: 0; 
-    }
-    
-    .nav-links { 
-        flex-direction: row; 
-        justify-content: flex-end; 
-        gap: 20px; 
-    }
-    
-    .profile-card { 
-        width: 100%; 
-        flex-shrink: 0;
-    }
-    
-    .main-content {
-        height: auto; /* Mencegah content terpotong di dalam box */
-    }
-
-    .stats-grid { 
-        grid-template-columns: 1fr; /* Menjadikan 1 baris ke bawah di HP vertikal */
-    }
-    
-    .skills-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-    }
-    
-    .skill-bars-container { 
-        grid-column: span 2; 
-    }
+    .theme-toggle { margin-bottom: 0; }
+    .nav-links { flex-direction: row; justify-content: flex-end; gap: 20px; }
+    .profile-card { width: 100%; position: static; }
+    .main-content { padding: 20px; border-radius: 20px; gap: 25px; }
+    .project-detail-hero h1 { font-size: 1.6rem; }
+    .project-meta-badges { display: grid; grid-template-columns: 1fr; }
+    .badge-item { min-width: 100%; }
 }
 
-/* Tambahan optimasi khusus untuk layar landscape HP seperti di gambar 120886.jpg */
 @media (max-width: 900px) and (orientation: landscape) {
-    .stats-grid { 
-        grid-template-columns: repeat(3, 1fr); /* Tetap 3 kolom jika posisi HP miring */
-    }
-    .skills-grid { 
-        grid-template-columns: repeat(4, 1fr); 
-    }
-    .skill-bars-container { 
-        grid-column: span 2; 
-    }
+    .projects-portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .project-meta-badges { display: grid; grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 650px) {
+    .portfolio-card.horizontal-card { flex-direction: column; }
+    .portfolio-card.horizontal-card .portfolio-img { width: 100%; height: 180px; }
+    .portfolio-card.horizontal-card .portfolio-info { width: 100%; }
+    .card-header-top { flex-direction: column; align-items: flex-start; gap: 5px; }
+    .card-body-bottom { align-items: flex-start; text-align: left; }
+    .card-body-bottom p { max-width: 100%; }
 }
